@@ -21,7 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //empreses
     Route::get('/empreses', [EmpresaController::class, 'llistar_empreses']);
+    Route::post('/empreses', [EmpresaController::class, 'crear']);
     Route::get('/empreses/{id}', [EmpresaController::class, 'obtenir_detalls']);
+    Route::put('/empreses/{id}', [EmpresaController::class, 'modificar']);
+    Route::patch('/empreses/{id}', [EmpresaController::class, 'modificar']);
+    Route::delete('/empreses/{id}', [EmpresaController::class, 'eliminar']);
 
     // Chat
     Route::get('/conversations', [ChatController::class, 'conversations']);
