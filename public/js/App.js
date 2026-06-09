@@ -89,6 +89,7 @@ export class App {
         this.jornadesProfessorat = [];
         this.contextEdicioJornada = 'alumne';
         this.dashboard.reiniciar();
+        this.empreses.reiniciar();
         this.assistencia.reiniciar();
         this.ras.reiniciar();
         this.xat.aturarPolling();
@@ -221,12 +222,14 @@ export class App {
 
     async _carregarEmpreses() {
         const contenidor = document.getElementById('empresesContainer');
-        // Només carrega si encara no s'han carregat
-        if (this.empreses.totes.length > 0) return;
+        if (this.empreses.totes.length > 0) {
+            this._renderEmpreses();
+            return;
+        }
 
         try {
-            const empreses = await this.empreses.carregar();
-            this.uiEmpreses.renderLlista(empreses);
+            await this.empreses.carregar();
+            this._renderEmpreses();
         } catch (error) {
             console.error('Error carregant empreses:', error);
             if (contenidor) contenidor.innerHTML = '<p>Error carregant les empreses.</p>';
@@ -234,9 +237,84 @@ export class App {
     }
 
     _filtrarEmpreses() {
+        this._renderEmpreses();
+    }
+
+    _renderEmpreses() {
         const text = document.getElementById('searchEmpreses')?.value || '';
         const filtrades = this.empreses.filtrar(text);
-        this.uiEmpreses.renderLlista(filtrades);
+        this.uiEmpreses.renderLlista(filtrades, {
+            esProfessor: this.usuariActual?.role === 'professor',
+            onNova: () => this._novaEmpresa(),
+            onEditar: (id) => this._editarEmpresa(id),
+            onEliminar: (id) => this._eliminarEmpresa(id),
+        });
+    }
+
+    _novaEmpresa() {
+        this.uiEmpreses.obrirModal();
+    }
+
+    _editarEmpresa(id) {
+        const empresa = this.empreses.cercarPerId(id);
+        if (!empresa) {
+            UiNotificacions.mostrar('No s\'ha pogut obrir l\'empresa seleccionada', 'error');
+            return;
+        }
+
+        this.uiEmpreses.obrirModal(empresa);
+    }
+
+    async _guardarEmpresa() {
+        const { id, dades } = this.uiEmpreses.llegirFormulari();
+
+        if (!dades.title) {
+            this.uiEmpreses.mostrarErrors({ title: ['El nom de l\'empresa es obligatori.'] });
+            return;
+        }
+
+        this.uiEmpreses.setGuardant(true);
+
+        try {
+            const { resposta, dades: respostaDades } = id
+                ? await this.empreses.actualitzar(id, dades)
+                : await this.empreses.crear(dades);
+
+            if (resposta.ok) {
+                UiNotificacions.mostrar(id ? 'Empresa actualitzada correctament' : 'Empresa creada correctament', 'success');
+                this.uiEmpreses.tancarModal();
+                this._renderEmpreses();
+                return;
+            }
+
+            this.uiEmpreses.mostrarErrors(respostaDades.errors || { error: [respostaDades.error || 'No s\'ha pogut guardar l\'empresa.'] });
+        } catch (error) {
+            console.error('Error guardant empresa:', error);
+            UiNotificacions.mostrar('Error de connexio', 'error');
+        } finally {
+            this.uiEmpreses.setGuardant(false);
+        }
+    }
+
+    async _eliminarEmpresa(id) {
+        const empresa = this.empreses.cercarPerId(id);
+        const nom = empresa?.title || 'aquesta empresa';
+        if (!confirm(`Estas segur que vols eliminar ${nom}?`)) return;
+
+        try {
+            const resposta = await this.empreses.eliminar(id);
+            if (resposta.ok) {
+                UiNotificacions.mostrar('Empresa eliminada correctament', 'success');
+                this._renderEmpreses();
+                return;
+            }
+
+            const dades = await resposta.json().catch(() => ({}));
+            UiNotificacions.mostrar(dades.error || 'No s\'ha pogut eliminar l\'empresa', 'error');
+        } catch (error) {
+            console.error('Error eliminant empresa:', error);
+            UiNotificacions.mostrar('Error de connexio', 'error');
+        }
     }
 
     // ─── RA's ───────────────────────────────────────────────────────
@@ -669,6 +747,12 @@ export class App {
         if (inputCercaEmpreses) {
             inputCercaEmpreses.addEventListener('input', () => this._filtrarEmpreses());
         }
+
+        document.addEventListener('click', (event) => {
+            if (event.target?.id === 'btnGuardarEmpresa') {
+                this._guardarEmpresa();
+            }
+        });
 
         // Cerca RA's (pestanya)
         const inputCercaRas = document.getElementById('searchRas');
