@@ -36,6 +36,8 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->
 
     // Users Management
     Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class);
+    Route::get('users/import/form', [\App\Http\Controllers\Admin\AdminUsersController::class, 'importForm'])->name('users.import-form');
+    Route::post('users/import', [\App\Http\Controllers\Admin\AdminUsersController::class, 'import'])->name('users.import');
 
     // Companies Management
     Route::resource('companies', \App\Http\Controllers\Admin\AdminCompaniesController::class);

@@ -85,4 +85,49 @@ class AdminUsersController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Usuari eliminat');
     }
+
+    public function importForm()
+    {
+        return view('admin.users.import');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        $file = $request->file('file');
+        $path = $file->getRealPath();
+        $data = array_map('str_getcsv', file($path));
+        
+        $count = 0;
+        foreach ($data as $index => $row) {
+            if ($index === 0) continue; // Skip header
+            if (count($row) < 2 || empty($row[0]) || empty($row[1])) continue;
+
+            $user = User::updateOrCreate(
+                ['email' => $row[1]],
+                [
+                    'name' => $row[0],
+                    'email' => $row[1],
+                    'password' => Hash::make($row[2] ?? 'password123'),
+                ]
+            );
+
+            // Create role if specified
+            $role = strtolower($row[3] ?? 'professor');
+            if ($role === 'professor' && !$user->professor) {
+                Professor::create(['user_id' => $user->id]);
+            } elseif ($role === 'alumne' && !$user->alumne) {
+                Alumne::create(['user_id' => $user->id]);
+            } elseif ($role === 'empresari' && !$user->empresari) {
+                Empresari::create(['user_id' => $user->id]);
+            }
+
+            $count++;
+        }
+
+        return redirect()->route('admin.users.index')->with('success', "Importats $count usuaris");
+    }
 }

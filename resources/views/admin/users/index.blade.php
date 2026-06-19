@@ -5,7 +5,10 @@
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h2>Gestió d'Usuaris</h2>
-    <a href="{{ route('admin.users.create') }}" class="btn">+ Afegir Usuari</a>
+    <div>
+        <a href="{{ route('admin.users.create') }}" class="btn">+ Afegir Usuari</a>
+        <a href="{{ route('admin.users.import-form') }}" class="btn" style="background: #28a745;">📤 Importar CSV</a>
+    </div>
 </div>
 
 <table>
