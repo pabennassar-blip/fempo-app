@@ -36,6 +36,7 @@
         <select name="role" id="role" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
             <option value="">Selecciona un rol</option>
             <option value="professor">Professor</option>
+            <option value="tutor">Tutor</option>
             <option value="alumne">Alumne</option>
             <option value="empresari">Empresari</option>
         </select>

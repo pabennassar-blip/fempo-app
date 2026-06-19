@@ -7,15 +7,17 @@
 
 <div style="background: #eef; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #336;">
     <p><strong>Format CSV requerit:</strong></p>
-    <p style="font-family: monospace; margin: 10px 0;">Nom,Email,Contrasenya,Rol (professor/alumne/empresari)</p>
+    <p style="font-family: monospace; margin: 10px 0;">Nom,Email,Contrasenya,Rol (professor/tutor/alumne/empresari)</p>
     <p style="font-size: 0.9em; color: #555;">Exemple:<br>
     <code>"Maria García","maria@example.com","password123","professor"</code><br>
+    <code>"Joan Martí","joan@example.com","password123","tutor"</code><br>
     <code>"Juan López","juan@example.com","password123","alumne"</code></p>
     <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
         <strong>Notes:</strong>
         <ul style="margin: 5px 0 0 20px;">
             <li>La contrasenya és opcional (per defecte: password123)</li>
             <li>El rol és opcional (per defecte: professor)</li>
+            <li>Rols permesos: professor, tutor, alumne, empresari</li>
             <li>Si l'email ja existeix, s'actualitza l'usuari</li>
         </ul>
     </p>

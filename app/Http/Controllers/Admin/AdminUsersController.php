@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Professor;
 use App\Models\Alumne;
 use App\Models\Empresari;
+use App\Models\Tutor;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUsersController extends Controller
@@ -23,13 +24,13 @@ class AdminUsersController extends Controller
 
     public function index()
     {
-        $users = User::with(['professor', 'alumne', 'empresari'])->paginate(15);
+        $users = User::with(['professor', 'alumne', 'empresari', 'tutor'])->paginate(15);
         return view('admin.users.index', compact('users'));
     }
 
     public function show(User $user)
     {
-        $user->load(['professor', 'alumne', 'empresari', 'contracts']);
+        $user->load(['professor', 'alumne', 'empresari', 'tutor', 'contracts']);
         return view('admin.users.show', compact('user'));
     }
 
@@ -44,7 +45,7 @@ class AdminUsersController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:professor,alumne,empresari',
+            'role' => 'required|in:professor,alumne,empresari,tutor',
         ]);
 
         $user = User::create([
@@ -58,6 +59,7 @@ class AdminUsersController extends Controller
             'professor' => Professor::create(['user_id' => $user->id]),
             'alumne' => Alumne::create(['user_id' => $user->id]),
             'empresari' => Empresari::create(['user_id' => $user->id]),
+            'tutor' => Tutor::create(['user_id' => $user->id]),
         };
 
         return redirect()->route('admin.users.show', $user)->with('success', 'Usuari creat correctament');
@@ -123,6 +125,8 @@ class AdminUsersController extends Controller
                 Alumne::create(['user_id' => $user->id]);
             } elseif ($role === 'empresari' && !$user->empresari) {
                 Empresari::create(['user_id' => $user->id]);
+            } elseif ($role === 'tutor' && !$user->tutor) {
+                Tutor::create(['user_id' => $user->id]);
             }
 
             $count++;

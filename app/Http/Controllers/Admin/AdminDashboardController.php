@@ -11,6 +11,7 @@ use App\Models\Jornada;
 use App\Models\Professor;
 use App\Models\Alumne;
 use App\Models\Empresari;
+use App\Models\Tutor;
 use App\Models\Ra;
 use App\Models\Contract;
 
@@ -29,6 +30,7 @@ class AdminDashboardController extends Controller
         $stats = [
             'total_users' => User::count(),
             'total_professors' => Professor::count(),
+            'total_tutors' => Tutor::count(),
             'total_students' => Alumne::count(),
             'total_business_owners' => Empresari::count(),
             'total_companies' => Empresa::count(),

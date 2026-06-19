@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Professor extends Model
+class Tutor extends Model
 {
-    protected $fillable = ['user_id', 'curs'];
+    protected $fillable = ['user_id'];
 
     public function user(): BelongsTo
     {
@@ -16,10 +16,10 @@ class Professor extends Model
     }
 
     /**
-     * Alumnes assignats a aquest professor.
+     * Alumnes assignats a aquest tutor.
      */
     public function alumnes(): BelongsToMany
     {
-        return $this->belongsToMany(Alumne::class, 'professor_alumne');
+        return $this->belongsToMany(Alumne::class, 'tutor_alumne');
     }
 }

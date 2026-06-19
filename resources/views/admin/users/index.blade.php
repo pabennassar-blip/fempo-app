@@ -29,6 +29,8 @@
             <td>
                 @if ($user->professor)
                     <span style="background: #e7f3ff; padding: 4px 8px; border-radius: 4px; color: #0066cc;">Professor</span>
+                @elseif ($user->tutor)
+                    <span style="background: #e0f7ff; padding: 4px 8px; border-radius: 4px; color: #0088cc;">Tutor</span>
                 @elseif ($user->alumne)
                     <span style="background: #fff3e0; padding: 4px 8px; border-radius: 4px; color: #cc6600;">Alumne</span>
                 @elseif ($user->empresari)

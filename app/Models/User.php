@@ -71,6 +71,9 @@ class User extends Authenticatable
         if ($this->relationLoaded('professor') ? $this->professor !== null : $this->professor()->exists()) {
             return 'professor';
         }
+        if ($this->relationLoaded('tutor') ? $this->tutor !== null : $this->tutor()->exists()) {
+            return 'tutor';
+        }
         if ($this->relationLoaded('empresari') ? $this->empresari !== null : $this->empresari()->exists()) {
             return 'empresari';
         }
@@ -83,6 +86,11 @@ class User extends Authenticatable
     public function professor(): HasOne
     {
         return $this->hasOne(Professor::class);
+    }
+
+    public function tutor(): HasOne
+    {
+        return $this->hasOne(Tutor::class);
     }
 
     public function alumne(): HasOne

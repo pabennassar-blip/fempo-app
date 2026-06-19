@@ -15,6 +15,10 @@
         <h3>{{ $stats['total_professors'] }}</h3>
     </div>
     <div class="stat-card">
+        <p>Tutors</p>
+        <h3>{{ $stats['total_tutors'] }}</h3>
+    </div>
+    <div class="stat-card">
         <p>Alumnes</p>
         <h3>{{ $stats['total_students'] }}</h3>
     </div>

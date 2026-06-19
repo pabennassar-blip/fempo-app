@@ -30,6 +30,10 @@
             <p style="background: #e7f3ff; padding: 10px; border-radius: 4px; color: #0066cc;">
                 <strong>Professor</strong>
             </p>
+        @elseif ($user->tutor)
+            <p style="background: #e0f7ff; padding: 10px; border-radius: 4px; color: #0088cc;">
+                <strong>Tutor</strong>
+            </p>
         @elseif ($user->alumne)
             <p style="background: #fff3e0; padding: 10px; border-radius: 4px; color: #cc6600;">
                 <strong>Alumne</strong>
