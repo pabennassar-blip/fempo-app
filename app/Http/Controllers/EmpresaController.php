@@ -136,6 +136,6 @@ class EmpresaController extends Controller
     {
         $usuari = $request->user();
 
-        return $usuari !== null && $usuari->professor()->exists();
+        return $usuari !== null && ($usuari->professor()->exists() || $usuari->tutor()->exists());
     }
 }
