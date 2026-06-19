@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Professor;
@@ -12,10 +13,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminUsersController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth');
-        $this->middleware('admin');
+        return [
+            new Middleware('auth'),
+            new Middleware('admin'),
+        ];
     }
 
     public function index()
