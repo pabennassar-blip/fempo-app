@@ -19,51 +19,69 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear contrato
-        $contract = Contract::create([
-            'name' => 'Pràctiques IES Sineu',
-        ]);
+        // Crear contrato (idempotent)
+        $contract = Contract::firstOrCreate(
+            ['name' => 'Pràctiques IES Sineu'],
+            ['name' => 'Pràctiques IES Sineu']
+        );
 
-        // Crear professor
-        $professor = User::create([
-            'name' => 'María García',
-            'email' => 'professor@example.com',
-            'password' => Hash::make('password123'),
-        ]);
-        Professor::create([
-            'user_id' => $professor->id,
-            'curs' => 'DAW 2n',
-        ]);
+        // Crear professor (idempotent)
+        $professor = User::updateOrCreate(
+            ['email' => 'professor@example.com'],
+            [
+                'name' => 'María García',
+                'password' => Hash::make('password123'),
+            ]
+        );
+        Professor::updateOrCreate(
+            ['user_id' => $professor->id],
+            [
+                'user_id' => $professor->id,
+                'curs' => 'DAW 2n',
+            ]
+        );
 
         // Obtenir la primera empresa per assignar-la
         $empresa = Empresa::first();
 
-        // Crear alumne
-        $alumne = User::create([
-            'name' => 'Juan López',
-            'email' => 'alumne@example.com',
-            'password' => Hash::make('password123'),
-        ]);
-        Alumne::create([
-            'user_id' => $alumne->id,
-            'numero_seguretat_social' => '123456789012',
-        ]);
+        // Crear alumne (idempotent)
+        $alumne = User::updateOrCreate(
+            ['email' => 'alumne@example.com'],
+            [
+                'name' => 'Juan López',
+                'password' => Hash::make('password123'),
+            ]
+        );
+        Alumne::updateOrCreate(
+            ['user_id' => $alumne->id],
+            [
+                'user_id' => $alumne->id,
+                'numero_seguretat_social' => '123456789012',
+            ]
+        );
 
-        // Crear empresari
-        $empresariUser = User::create([
-            'name' => 'Carlos Martínez',
-            'email' => 'empresari@example.com',
-            'password' => Hash::make('password123'),
-        ]);
+        // Crear empresari (idempotent)
+        $empresariUser = User::updateOrCreate(
+            ['email' => 'empresari@example.com'],
+            [
+                'name' => 'Carlos Martínez',
+                'password' => Hash::make('password123'),
+            ]
+        );
         if ($empresa) {
-            Empresari::create([
-                'user_id' => $empresariUser->id,
-                'empresa_id' => $empresa->id,
-            ]);
+            Empresari::updateOrCreate(
+                ['user_id' => $empresariUser->id],
+                [
+                    'user_id' => $empresariUser->id,
+                    'empresa_id' => $empresa->id,
+                ]
+            );
         }
 
-        // Asignar usuarios al contrato
-        $contract->users()->attach([$professor->id, $alumne->id, $empresariUser->id]);
+        // Asignar usuarios al contrato (sin duplicados)
+        if (!$contract->users()->where('user_id', $professor->id)->exists()) {
+            $contract->users()->attach([$professor->id, $alumne->id, $empresariUser->id]);
+        }
 
     }
 }

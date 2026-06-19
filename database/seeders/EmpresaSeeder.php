@@ -39,8 +39,6 @@ class EmpresaSeeder extends Seeder
             'title' => 'Empresa 1',
             'description' => 'Desenvolupament de software',
             'location' => 'Palma',
-            'telefon' => '971 123 456',
-            'nom_empresari' => 'Pere Soler',
             'logo' => 'logos/logotip_empresa1.jpg',
         ]);
 
@@ -48,8 +46,6 @@ class EmpresaSeeder extends Seeder
             'title' => 'Empresa 2',
             'description' => 'Programació Orientada a Objectes',
             'location' => 'Inca',
-            'telefon' => '971 654 321',
-            'nom_empresari' => 'Marta Vidal',
             'logo' => 'logos/logotip_empresa2.jpg',
         ]);
 
@@ -57,8 +53,6 @@ class EmpresaSeeder extends Seeder
             'title' => 'Empresa 3',
             'description' => 'Màrqueting digital',
             'location' => 'Manacor',
-            'telefon' => '971 789 012',
-            'nom_empresari' => 'Joan Riera',
             'logo' => 'logos/logotip_empresa3.jpeg',
         ]);
     }
