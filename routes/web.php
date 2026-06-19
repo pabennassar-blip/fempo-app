@@ -61,6 +61,16 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->
     Route::resource('contracts', \App\Http\Controllers\Admin\AdminContractsController::class);
     Route::get('contracts/import/form', [\App\Http\Controllers\Admin\AdminContractsController::class, 'importForm'])->name('contracts.import-form');
     Route::post('contracts/import', [\App\Http\Controllers\Admin\AdminContractsController::class, 'import'])->name('contracts.import');
+
+    // Cicles Management
+    Route::resource('cicles', \App\Http\Controllers\Admin\AdminCiclesController::class);
+    Route::get('cicles/import/form', [\App\Http\Controllers\Admin\AdminCiclesController::class, 'importForm'])->name('cicles.import-form');
+    Route::post('cicles/import', [\App\Http\Controllers\Admin\AdminCiclesController::class, 'import'])->name('cicles.import');
+
+    // Moduls Management
+    Route::resource('moduls', \App\Http\Controllers\Admin\AdminModulsController::class);
+    Route::get('moduls/import/form', [\App\Http\Controllers\Admin\AdminModulsController::class, 'importForm'])->name('moduls.import-form');
+    Route::post('moduls/import', [\App\Http\Controllers\Admin\AdminModulsController::class, 'import'])->name('moduls.import');
 });
 
 

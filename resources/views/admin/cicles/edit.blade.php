@@ -1,0 +1,23 @@
+@extends('admin.layout')
+
+@section('title', 'Editar Cicle')
+
+@section('content')
+<h2>Editar Cicle</h2>
+
+<form method="POST" action="{{ route('admin.cicles.update', $cicle) }}" style="max-width: 600px;">
+    @csrf
+    @method('PUT')
+
+    <div style="margin-bottom: 15px;">
+        <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom del Cicle *</label>
+        <input type="text" name="nom" id="nom" value="{{ old('nom', $cicle->nom) }}" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+        @error('nom')<span style="color: #dc3545; font-size: 0.9em;">{{ $message }}</span>@enderror
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn">Actualitzar</button>
+        <a href="{{ route('admin.cicles.index') }}" class="btn" style="background: #999; margin-left: 10px;">Cancelar</a>
+    </div>
+</form>
+@endsection

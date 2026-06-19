@@ -119,6 +119,8 @@
             <a href="{{ route('admin.ras.index') }}">📚 RAs</a>
             <a href="{{ route('admin.jornades.index') }}">📅 Jornades</a>
             <a href="{{ route('admin.contracts.index') }}">📄 Contractes</a>
+            <a href="{{ route('admin.cicles.index') }}">🎓 Cicles</a>
+            <a href="{{ route('admin.moduls.index') }}">📖 Mòduls</a>
             <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn" style="background: none; border: none; padding: 8px 16px;">🚪 Sortir</button>
