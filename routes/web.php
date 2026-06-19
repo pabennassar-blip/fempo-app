@@ -71,6 +71,13 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->
     Route::resource('moduls', \App\Http\Controllers\Admin\AdminModulsController::class);
     Route::get('moduls/import/form', [\App\Http\Controllers\Admin\AdminModulsController::class, 'importForm'])->name('moduls.import-form');
     Route::post('moduls/import', [\App\Http\Controllers\Admin\AdminModulsController::class, 'import'])->name('moduls.import');
+
+    // Cicle-Moduls Relations Management
+    Route::get('cicle-moduls', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'index'])->name('cicle-moduls.index');
+    Route::get('cicle-moduls/{cicle}/manage', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'manage'])->name('cicle-moduls.manage');
+    Route::post('cicle-moduls/{cicle}/attach', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'attach'])->name('cicle-moduls.attach');
+    Route::delete('cicle-moduls/{cicle}/detach/{modul}', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'detach'])->name('cicle-moduls.detach');
+    Route::post('cicle-moduls/{cicle}/sync', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'sync'])->name('cicle-moduls.sync');
 });
 
 
