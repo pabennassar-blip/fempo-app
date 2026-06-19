@@ -5,6 +5,9 @@
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
     <h2>🔗 Gestió de Relacions Cicles-Mòduls</h2>
+    <div>
+        <a href="{{ route('admin.cicle-moduls.import-form') }}" class="btn" style="background: #28a745;">📤 Importar CSV</a>
+    </div>
 </div>
 
 <p style="color: #666; margin-bottom: 20px;">

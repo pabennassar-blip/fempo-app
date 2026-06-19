@@ -78,6 +78,8 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->
     Route::post('cicle-moduls/{cicle}/attach', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'attach'])->name('cicle-moduls.attach');
     Route::delete('cicle-moduls/{cicle}/detach/{modul}', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'detach'])->name('cicle-moduls.detach');
     Route::post('cicle-moduls/{cicle}/sync', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'sync'])->name('cicle-moduls.sync');
+    Route::get('cicle-moduls/import/form', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'importForm'])->name('cicle-moduls.import-form');
+    Route::post('cicle-moduls/import', [\App\Http\Controllers\Admin\AdminCicleModulsController::class, 'import'])->name('cicle-moduls.import');
 });
 
 

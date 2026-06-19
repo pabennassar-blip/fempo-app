@@ -88,4 +88,79 @@ class AdminCicleModulsController extends Controller
         return redirect()->route('admin.cicle-moduls.manage', $cicle)
             ->with('success', 'Mòdul eliminat del cicle');
     }
+
+    /**
+     * Mostrar formulari d'importació
+     */
+    public function importForm()
+    {
+        return view('admin.cicle-moduls.import');
+    }
+
+    /**
+     * Importar relacions desde CSV
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt|max:5120',
+        ]);
+
+        $file = $request->file('file');
+        $path = $file->getRealPath();
+        $data = array_map('str_getcsv', file($path));
+        
+        $count = 0;
+        $errors = [];
+        $missing = ['cicles' => [], 'moduls' => []];
+
+        foreach ($data as $index => $row) {
+            $lineNum = $index + 1;
+            
+            // Saltar encabezado
+            if ($index === 0) continue;
+            
+            // Saltar filas vacías
+            if (count($row) < 2 || empty($row[0]) || empty($row[1])) continue;
+
+            $cicleAbreviatura = trim($row[0]);
+            $modulNom = trim($row[1]);
+
+            // Buscar el cicle per abreviatura
+            $cicle = Cicle::where('abreviatura', $cicleAbreviatura)->first();
+            if (!$cicle) {
+                $missing['cicles'][] = $cicleAbreviatura;
+                $errors[] = "Línia $lineNum: Cicle amb abreviatura '$cicleAbreviatura' no existeix";
+                continue;
+            }
+
+            // Buscar el modul per nom
+            $modul = Modul::where('nom', $modulNom)->first();
+            if (!$modul) {
+                $missing['moduls'][] = $modulNom;
+                $errors[] = "Línia $lineNum: Mòdul '$modulNom' no existeix";
+                continue;
+            }
+
+            // Comprovar si la relació ja existeix
+            if (!$cicle->moduls()->where('modul_id', $modul->id)->exists()) {
+                $cicle->moduls()->attach($modul->id);
+                $count++;
+            }
+        }
+
+        // Preparar mensaje de respuesta
+        $message = "S'han importat $count relacions";
+        
+        if (!empty($errors)) {
+            $errorCount = count($errors);
+            return redirect()->route('admin.cicle-moduls.index')
+                ->with('warning', $message)
+                ->with('errors', $errors)
+                ->with('missing', $missing);
+        }
+
+        return redirect()->route('admin.cicle-moduls.index')
+            ->with('success', $message);
+    }
 }
