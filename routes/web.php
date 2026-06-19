@@ -36,6 +36,26 @@ Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->
 
     // Users Management
     Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class);
+
+    // Companies Management
+    Route::resource('companies', \App\Http\Controllers\Admin\AdminCompaniesController::class);
+    Route::get('companies/import/form', [\App\Http\Controllers\Admin\AdminCompaniesController::class, 'importForm'])->name('companies.import-form');
+    Route::post('companies/import', [\App\Http\Controllers\Admin\AdminCompaniesController::class, 'import'])->name('companies.import');
+
+    // RAs Management
+    Route::resource('ras', \App\Http\Controllers\Admin\AdminRasController::class);
+    Route::get('ras/import/form', [\App\Http\Controllers\Admin\AdminRasController::class, 'importForm'])->name('ras.import-form');
+    Route::post('ras/import', [\App\Http\Controllers\Admin\AdminRasController::class, 'import'])->name('ras.import');
+
+    // Jornades Management
+    Route::resource('jornades', \App\Http\Controllers\Admin\AdminJornadaController::class);
+    Route::get('jornades/import/form', [\App\Http\Controllers\Admin\AdminJornadaController::class, 'importForm'])->name('jornades.import-form');
+    Route::post('jornades/import', [\App\Http\Controllers\Admin\AdminJornadaController::class, 'import'])->name('jornades.import');
+
+    // Contracts Management
+    Route::resource('contracts', \App\Http\Controllers\Admin\AdminContractsController::class);
+    Route::get('contracts/import/form', [\App\Http\Controllers\Admin\AdminContractsController::class, 'importForm'])->name('contracts.import-form');
+    Route::post('contracts/import', [\App\Http\Controllers\Admin\AdminContractsController::class, 'import'])->name('contracts.import');
 });
 
 

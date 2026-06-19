@@ -112,12 +112,16 @@
 <body>
     <nav class="navbar">
         <h1>⚙️ FEMPO Admin</h1>
-        <div>
-            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
-            <a href="{{ route('admin.users.index') }}">Usuaris</a>
-            <form method="POST" action="/logout" style="display: inline;">
+        <div style="display: flex; gap: 5px;">
+            <a href="{{ route('admin.dashboard') }}">📊 Dashboard</a>
+            <a href="{{ route('admin.users.index') }}">👥 Usuaris</a>
+            <a href="{{ route('admin.companies.index') }}">🏢 Empreses</a>
+            <a href="{{ route('admin.ras.index') }}">📚 RAs</a>
+            <a href="{{ route('admin.jornades.index') }}">📅 Jornades</a>
+            <a href="{{ route('admin.contracts.index') }}">📄 Contractes</a>
+            <form method="POST" action="{{ route('admin.logout') }}" style="display: inline;">
                 @csrf
-                <button type="submit" class="btn" style="background: none; border: none; padding: 8px 16px;">Sortir</button>
+                <button type="submit" class="btn" style="background: none; border: none; padding: 8px 16px;">🚪 Sortir</button>
             </form>
         </div>
     </nav>

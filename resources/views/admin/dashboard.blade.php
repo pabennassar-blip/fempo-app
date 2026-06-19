@@ -27,8 +27,16 @@
         <h3>{{ $stats['total_companies'] }}</h3>
     </div>
     <div class="stat-card">
+        <p>RAs</p>
+        <h3>{{ $stats['total_ras'] }}</h3>
+    </div>
+    <div class="stat-card">
+        <p>Contractes</p>
+        <h3>{{ $stats['total_contracts'] }}</h3>
+    </div>
+    <div class="stat-card">
         <p>Jornades</p>
-        <h3>{{ $stats['total_attendance_records'] }}</h3>
+        <h3>{{ $stats['total_jornades'] }}</h3>
     </div>
 </div>
 
@@ -85,6 +93,46 @@
             <td>{{ $company->title }}</td>
             <td>{{ $company->location ?? 'N/A' }}</td>
             <td>{{ $company->created_at->format('d/m/Y H:i') }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<h3 style="margin-top: 30px; margin-bottom: 15px;">Últims RAs</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Codi</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($recent_ras as $ra)
+        <tr>
+            <td>{{ $ra->name }}</td>
+            <td><code>{{ $ra->code ?? '-' }}</code></td>
+            <td>{{ $ra->created_at->format('d/m/Y H:i') }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<h3 style="margin-top: 30px; margin-bottom: 15px;">Últims Contractes</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Títol</th>
+            <th>Data Inici</th>
+            <th>Data Fi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($recent_contracts as $contract)
+        <tr>
+            <td>{{ $contract->title }}</td>
+            <td>{{ $contract->start_date ? \Carbon\Carbon::parse($contract->start_date)->format('d/m/Y') : 'N/A' }}</td>
+            <td>{{ $contract->end_date ? \Carbon\Carbon::parse($contract->end_date)->format('d/m/Y') : 'N/A' }}</td>
         </tr>
         @endforeach
     </tbody>
