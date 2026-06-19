@@ -29,6 +29,9 @@ Route::get('/backend/login', [\App\Http\Controllers\Admin\AdminAuthController::c
 Route::post('/backend/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'authenticate'])->name('admin.authenticate');
 Route::post('/backend/logout', [\App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('admin.logout');
 
+// Default login route for Laravel auth middleware
+Route::get('/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'login'])->name('login');
+
 // Protected Admin Routes
 Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->group(function () {
     // Dashboard
