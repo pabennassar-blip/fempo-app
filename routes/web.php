@@ -24,3 +24,18 @@ Route::get('/chat.html', function () {
     abort(404);
 })->name('chat');
 
+// Admin Backend Routes
+Route::get('/backend/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'login'])->name('admin.login');
+Route::post('/backend/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'authenticate'])->name('admin.authenticate');
+Route::post('/backend/logout', [\App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Protected Admin Routes
+Route::middleware(['web', 'auth', 'admin'])->prefix('backend')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Users Management
+    Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class);
+});
+
+
