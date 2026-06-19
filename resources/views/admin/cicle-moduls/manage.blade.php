@@ -35,7 +35,7 @@
                 <tr>
                     <td><strong>{{ $modul->nom }}</strong></td>
                     <td><code>{{ $modul->abreviatura ?? '-' }}</code></td>
-                    <td>{{ $modul->pivot->created_at->format('d/m/Y H:i') ?? '-' }}</td>
+                    <td>{{ $modul->pivot->created_at?->format('d/m/Y H:i') ?? '-' }}</td>
                     <td>
                         <form method="POST" action="{{ route('admin.cicle-moduls.detach', [$cicle, $modul]) }}" style="display: inline;" onsubmit="return confirm('Segur?');">
                             @csrf
