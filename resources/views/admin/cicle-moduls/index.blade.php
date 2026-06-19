@@ -16,6 +16,8 @@
         <tr>
             <th>Cicle</th>
             <th>Abreviatura</th>
+            <th>Familia</th>
+            <th>Nivell</th>
             <th>Mòduls Associats</th>
             <th>Accions</th>
         </tr>
@@ -28,6 +30,12 @@
             </td>
             <td>
                 <code>{{ $cicle->abreviatura ?? '-' }}</code>
+            </td>
+            <td>
+                {{ $cicle->familia ?? '-' }}
+            </td>
+            <td>
+                {{ $cicle->nivell ?? '-' }}
             </td>
             <td>
                 @if ($cicle->moduls->count() > 0)

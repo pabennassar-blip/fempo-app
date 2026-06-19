@@ -23,6 +23,26 @@
     </div>
 
     <div style="margin-bottom: 15px;">
+        <strong style="display: block; margin-bottom: 5px; color: #667eea;">Familia:</strong>
+        <span>{{ $cicle->familia ?? '-' }}</span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="display: block; margin-bottom: 5px; color: #667eea;">Grau:</strong>
+        <span>{{ $cicle->grau ?? '-' }}</span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="display: block; margin-bottom: 5px; color: #667eea;">Nivell:</strong>
+        <span>{{ $cicle->nivell ?? '-' }}</span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <strong style="display: block; margin-bottom: 5px; color: #667eea;">Estudi:</strong>
+        <span>{{ $cicle->estudi ?? '-' }}</span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
         <strong style="display: block; margin-bottom: 5px; color: #667eea;">Data Creació:</strong>
         <span>{{ $cicle->created_at->format('d/m/Y H:i') }}</span>
     </div>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Cicle extends Model
 {
-    protected $fillable = ['nom', 'abreviatura'];
+    protected $fillable = ['nom', 'abreviatura', 'familia', 'grau', 'nivell', 'estudi'];
 
     /**
      * Moduls assignats a aquest cicle.

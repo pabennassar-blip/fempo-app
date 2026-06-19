@@ -38,6 +38,10 @@ class AdminCiclesController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'abreviatura' => 'nullable|string|max:50',
+            'familia' => 'nullable|string|max:100',
+            'grau' => 'nullable|string|max:100',
+            'nivell' => 'nullable|string|max:100',
+            'estudi' => 'nullable|string|max:100',
         ]);
 
         Cicle::create($validated);
@@ -54,6 +58,10 @@ class AdminCiclesController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'abreviatura' => 'nullable|string|max:50',
+            'familia' => 'nullable|string|max:100',
+            'grau' => 'nullable|string|max:100',
+            'nivell' => 'nullable|string|max:100',
+            'estudi' => 'nullable|string|max:100',
         ]);
 
         $cicle->update($validated);

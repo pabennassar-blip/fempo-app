@@ -16,6 +16,10 @@
         <tr>
             <th>Nom</th>
             <th>Abreviatura</th>
+            <th>Familia</th>
+            <th>Grau</th>
+            <th>Nivell</th>
+            <th>Estudi</th>
             <th>Data Creació</th>
             <th>Accions</th>
         </tr>
@@ -25,6 +29,10 @@
         <tr>
             <td><strong>{{ $cicle->nom }}</strong></td>
             <td><code>{{ $cicle->abreviatura ?? '-' }}</code></td>
+            <td>{{ $cicle->familia ?? '-' }}</td>
+            <td>{{ $cicle->grau ?? '-' }}</td>
+            <td>{{ $cicle->nivell ?? '-' }}</td>
+            <td>{{ $cicle->estudi ?? '-' }}</td>
             <td>{{ $cicle->created_at->format('d/m/Y') }}</td>
             <td>
                 <a href="{{ route('admin.cicles.show', $cicle) }}" class="btn" style="padding: 6px 12px; font-size: 0.9em;">Veure</a>

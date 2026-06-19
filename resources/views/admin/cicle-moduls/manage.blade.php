@@ -4,7 +4,15 @@
 
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2>Gestionar Mòduls: <span style="color: #667eea;">{{ $cicle->abreviatura ? $cicle->abreviatura . ' - ' : '' }}{{ $cicle->nom }}</span></h2>
+    <div>
+        <h2>Gestionar Mòduls: <span style="color: #667eea;">{{ $cicle->abreviatura ? $cicle->abreviatura . ' - ' : '' }}{{ $cicle->nom }}</span></h2>
+        <p style="color: #666; font-size: 0.95em; margin-top: 5px;">
+            Familia: <strong>{{ $cicle->familia ?? '-' }}</strong> | 
+            Grau: <strong>{{ $cicle->grau ?? '-' }}</strong> | 
+            Nivell: <strong>{{ $cicle->nivell ?? '-' }}</strong> | 
+            Estudi: <strong>{{ $cicle->estudi ?? '-' }}</strong>
+        </p>
+    </div>
     <a href="{{ route('admin.cicle-moduls.index') }}" class="btn" style="background: #999;">← Tornar</a>
 </div>
 
