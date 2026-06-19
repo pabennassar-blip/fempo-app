@@ -14,7 +14,8 @@
 <table>
     <thead>
         <tr>
-            <th>Nom del Cicle</th>
+            <th>Cicle</th>
+            <th>Abreviatura</th>
             <th>Mòduls Associats</th>
             <th>Accions</th>
         </tr>
@@ -26,11 +27,14 @@
                 <strong>{{ $cicle->nom }}</strong>
             </td>
             <td>
+                <code>{{ $cicle->abreviatura ?? '-' }}</code>
+            </td>
+            <td>
                 @if ($cicle->moduls->count() > 0)
                     <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                         @foreach ($cicle->moduls as $modul)
                             <span style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 4px; font-size: 0.9em;">
-                                {{ $modul->nom }}
+                                {{ $modul->abreviatura ? $modul->abreviatura . ' - ' : '' }}{{ $modul->nom }}
                             </span>
                         @endforeach
                     </div>

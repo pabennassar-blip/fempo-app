@@ -37,6 +37,7 @@ class AdminCiclesController extends Controller
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
+            'abreviatura' => 'nullable|string|max:50',
         ]);
 
         Cicle::create($validated);
@@ -52,6 +53,7 @@ class AdminCiclesController extends Controller
     {
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
+            'abreviatura' => 'nullable|string|max:50',
         ]);
 
         $cicle->update($validated);

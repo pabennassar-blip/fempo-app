@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>Nom</th>
+            <th>Abreviatura</th>
             <th>Data Creació</th>
             <th>Accions</th>
         </tr>
@@ -23,6 +24,7 @@
         @foreach ($cicles as $cicle)
         <tr>
             <td><strong>{{ $cicle->nom }}</strong></td>
+            <td><code>{{ $cicle->abreviatura ?? '-' }}</code></td>
             <td>{{ $cicle->created_at->format('d/m/Y') }}</td>
             <td>
                 <a href="{{ route('admin.cicles.show', $cicle) }}" class="btn" style="padding: 6px 12px; font-size: 0.9em;">Veure</a>

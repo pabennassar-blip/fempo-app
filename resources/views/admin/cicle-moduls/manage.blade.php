@@ -4,7 +4,7 @@
 
 @section('content')
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2>Gestionar Mòduls: <span style="color: #667eea;">{{ $cicle->nom }}</span></h2>
+    <h2>Gestionar Mòduls: <span style="color: #667eea;">{{ $cicle->abreviatura ? $cicle->abreviatura . ' - ' : '' }}{{ $cicle->nom }}</span></h2>
     <a href="{{ route('admin.cicle-moduls.index') }}" class="btn" style="background: #999;">← Tornar</a>
 </div>
 
@@ -16,7 +16,8 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nom del Mòdul</th>
+                    <th>Mòdul</th>
+                    <th>Abreviatura</th>
                     <th>Data Assignació</th>
                     <th>Accions</th>
                 </tr>
@@ -25,6 +26,7 @@
                 @foreach ($cicle->moduls as $modul)
                 <tr>
                     <td><strong>{{ $modul->nom }}</strong></td>
+                    <td><code>{{ $modul->abreviatura ?? '-' }}</code></td>
                     <td>{{ $modul->pivot->created_at->format('d/m/Y H:i') ?? '-' }}</td>
                     <td>
                         <form method="POST" action="{{ route('admin.cicle-moduls.detach', [$cicle, $modul]) }}" style="display: inline;" onsubmit="return confirm('Segur?');">
@@ -58,7 +60,7 @@
                     <option value="">-- Escull un mòdul --</option>
                     @foreach ($allModuls as $modul)
                         @if (!in_array($modul->id, $assignedModulIds))
-                            <option value="{{ $modul->id }}">{{ $modul->nom }}</option>
+                            <option value="{{ $modul->id }}">{{ $modul->abreviatura ? $modul->abreviatura . ' - ' : '' }}{{ $modul->nom }}</option>
                         @endif
                     @endforeach
                 </select>
@@ -91,7 +93,7 @@
     <form method="POST" action="{{ route('admin.cicle-moduls.sync', $cicle) }}">
         @csrf
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-bottom: 20px;">
             @foreach ($allModuls as $modul)
             <div style="display: flex; align-items: center; background: white; padding: 10px; border-radius: 4px; border: 1px solid #e0e0e0;">
                 <input 
@@ -103,7 +105,8 @@
                     style="width: 18px; height: 18px; margin-right: 10px; cursor: pointer;"
                 >
                 <label for="modul_{{ $modul->id }}" style="margin: 0; cursor: pointer; flex: 1;">
-                    {{ $modul->nom }}
+                    <strong>{{ $modul->abreviatura ?? '-' }}</strong><br>
+                    <span style="font-size: 0.9em; color: #666;">{{ $modul->nom }}</span>
                 </label>
             </div>
             @endforeach

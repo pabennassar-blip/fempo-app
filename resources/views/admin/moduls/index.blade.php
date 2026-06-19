@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>Nom</th>
+            <th>Abreviatura</th>
             <th>Data Creació</th>
             <th>Accions</th>
         </tr>
@@ -23,6 +24,7 @@
         @foreach ($moduls as $modul)
         <tr>
             <td><strong>{{ $modul->nom }}</strong></td>
+            <td><code>{{ $modul->abreviatura ?? '-' }}</code></td>
             <td>{{ $modul->created_at->format('d/m/Y') }}</td>
             <td>
                 <a href="{{ route('admin.moduls.show', $modul) }}" class="btn" style="padding: 6px 12px; font-size: 0.9em;">Veure</a>

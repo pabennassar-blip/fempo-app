@@ -18,6 +18,11 @@
     </div>
     
     <div style="margin-bottom: 15px;">
+        <strong style="display: block; margin-bottom: 5px; color: #667eea;">Abreviatura:</strong>
+        <span><code>{{ $modul->abreviatura ?? '-' }}</code></span>
+    </div>
+
+    <div style="margin-bottom: 15px;">
         <strong style="display: block; margin-bottom: 5px; color: #667eea;">Data Creació:</strong>
         <span>{{ $modul->created_at->format('d/m/Y H:i') }}</span>
     </div>
