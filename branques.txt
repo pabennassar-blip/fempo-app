@@ -1,0 +1,12 @@
+# Veure la branca actual
+git branch
+
+# Tornar a development si necessites l'estat anterior
+git checkout development
+
+# Tornar a master
+git checkout master
+
+# Fusionar development a master (si ho vols més tard)
+git merge development
+
