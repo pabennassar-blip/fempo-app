@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Modul extends Model
 {
-    protected $fillable = ['nom', 'abreviatura'];
+    protected $fillable = ['nom', 'codi', 'abreviatura'];
 
     /**
      * Cicles als quals pertany aquest modul.
