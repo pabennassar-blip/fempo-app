@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EmpresaSeeder::class,
             UsersSeeder::class,
             RasSeeder::class,
+            LoginConfigSeeder::class,
         ]);
     }
 }

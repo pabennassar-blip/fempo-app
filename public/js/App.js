@@ -7,6 +7,7 @@ import { assignarText } from './utilitats/Helpers.js';
 
 // Serveis
 import { ServeiAuth } from './serveis/ServeiAuth.js';
+import { ServeiLoginConfig } from './serveis/ServeiLoginConfig.js';
 import { ServeiDashboard } from './serveis/ServeiDashboard.js';
 import { ServeiEmpreses } from './serveis/ServeiEmpreses.js';
 import { ServeiRas } from './serveis/ServeiRas.js';
@@ -26,6 +27,7 @@ export class App {
     constructor() {
         // Serveis
         this.auth = new ServeiAuth();
+        this.loginConfig = new ServeiLoginConfig();
         this.dashboard = new ServeiDashboard();
         this.empreses = new ServeiEmpreses();
         this.ras = new ServeiRas();
@@ -105,13 +107,54 @@ export class App {
 
     // ─── Navegació Login / Dashboard ─────────────────────────────────
 
-    _mostrarLogin() {
+    async _mostrarLogin() {
         const login = document.getElementById('loginContainer');
         const dashboard = document.getElementById('dashboard');
         login.style.display = 'flex';
         login.classList.remove('d-none');
         dashboard.style.display = 'none';
         dashboard.classList.add('d-none');
+
+        // Cargar configuración del login
+        await this._carregarConfiguracionLogin();
+    }
+
+    /**
+     * Carrega la configuració del login i actualitza els elements dinàmics.
+     * @private
+     */
+    async _carregarConfiguracionLogin() {
+        try {
+            const config = await this.loginConfig.obtenirConfig('default');
+
+            // Actualitzar imatge del login (primeira)
+            const fotoGovernIlles = document.getElementById('foto_govern_illes');
+            if (fotoGovernIlles && config.image1_path) {
+                fotoGovernIlles.src = config.image1_path;
+            }
+
+            // Actualitzar segunda imatge del login si existeix
+            if (config.image2_path) {
+                const loginImageDiv2Container = document.getElementById('loginImageDiv2Container');
+                const fotoLogin2 = document.getElementById('foto_login_2');
+                if (loginImageDiv2Container && fotoLogin2) {
+                    fotoLogin2.src = config.image2_path;
+                    loginImageDiv2Container.style.display = '';
+                }
+            }
+
+            // Actualitzar versió del login
+            const loginVersion = document.getElementById('loginVersion');
+            if (loginVersion && config.version) {
+                loginVersion.textContent = `v${config.version}`;
+            }
+
+            // Emmagatzemar config per a ús posterior si cal
+            this.loginConfigActual = config;
+        } catch (error) {
+            console.error('Error al cargar configuración del login:', error);
+            // No es crítico, continuar con valores por defecto
+        }
     }
 
     _mostrarDashboard() {
