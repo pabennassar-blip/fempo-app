@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual FEMPO-APP | Gestor de Formació en Empresa.</title>
+    <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a3a5c;
+            --secondary-color: #2c5aa0;
+            --accent-color: #f39c12;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .toc-sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--primary-color);
+            overflow-y: auto;
+            padding: 30px 0;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .toc-sidebar h4 {
+            color: white;
+            padding: 0 20px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toc-sidebar ul {
+            list-style: none;
+        }
+
+        .toc-sidebar li {
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .toc-sidebar a:hover {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: var(--accent-color);
+            padding-left: 25px;
+        }
+
+        .toc-sidebar a.active {
+            color: white;
+            background-color: var(--secondary-color);
+            border-left-color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 60px 40px;
+            margin-left: -40px;
+            margin-right: -40px;
+            margin-top: -40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin: 0;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .section h4 {
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .card-section {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-section h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .badge-role {
+            display: inline-block;
+            background: var(--info-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        .badge-method {
+            display: inline-block;
+            background: var(--success-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .badge-method.post { background: var(--info-color); }
+        .badge-method.get { background: var(--success-color); }
+        .badge-method.put { background: #f39c12; color: white; }
+        .badge-method.delete { background: var(--danger-color); }
+        .badge-method.patch { background: #9b59b6; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table thead {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        table tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .code-block code {
+            color: #abb2bf;
+        }
+
+        .code-keyword { color: #c678dd; }
+        .code-string { color: #98c379; }
+        .code-function { color: #61afef; }
+        .code-comment { color: #5c6370; font-style: italic; }
+        .code-number { color: #d19a66; }
+
+        .flow-diagram {
+            background: var(--light-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: monospace;
+            line-height: 2;
+        }
+
+        .flow-item {
+            display: inline-block;
+            background: white;
+            border: 2px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .flow-arrow {
+            display: inline-block;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        ul li, ol li {
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background: #e8f4f8;
+            border-left: 4px solid var(--info-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fef5e7;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #7d6608;
+        }
+
+        .success-box {
+            background: #eafaf1;
+            border-left: 4px solid var(--success-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            color: #186a3b;
+        }
+
+        .model-tree {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .model-tree .level-1 { margin-left: 0px; font-weight: 600; color: var(--primary-color); }
+        .model-tree .level-2 { margin-left: 20px; color: var(--secondary-color); }
+        .model-tree .level-3 { margin-left: 40px; color: #666; }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-left: -40px;
+            margin-right: -40px;
+            margin-bottom: -40px;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            font-size: 1.5rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 1200px) {
+            .toc-sidebar {
+                width: 240px;
+            }
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .toc-sidebar {
+                position: absolute;
+                width: 200px;
+                padding: 20px 0;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            header {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding: 30px 20px;
+            }
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .api-endpoint {
+            background: #f5f5f5;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .api-endpoint strong {
+            color: var(--secondary-color);
+        }
+
+        .role-section {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .role-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .role-title h4 {
+            margin: 0;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: var(--secondary-color);
+        }
+
+        .toc-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .toc-sidebar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .toc-sidebar::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Table of Contents Sidebar -->
+    <div class="toc-sidebar">
+        <h4>Menú</h4>
+        <ul>
+            <li><a href="#inicio" class="nav-link">Inici</a></li>
+            <li><a href="#descripcion" class="nav-link">Descripció General</a></li>
+            <li><a href="#arquitectura" class="nav-link">Arquitectura</a></li>
+            <li><a href="#funcionalidades" class="nav-link">Funcionalitats</a></li>
+            <li><a href="#roles" class="nav-link">Rols i Permisos</a></li>
+            <li><a href="#instalacion" class="nav-link">Instal·lació</a></li>
+            <li><a href="#guia-uso" class="nav-link">Guia d'Ús</a></li>
+            <li><a href="#troubleshooting" class="nav-link">Solució de Problemes</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header id="inicio">
+            <h1>Manual FEMPO-2</h1>
+            <p>Gestor d'Aplicacions - Portal de Comunicacions Integrat</p>
+        </header>
+
+        <!-- Descripción General -->
+        <section class="section" id="descripcion">
+            <h2>Descripció General</h2>
+            
+            <p><strong>FEMPO-2</strong> és una aplicació web moderna basada en <strong>Laravel</strong> (backend) que gestiona un sistema integral de comunicacions, assistència i resultats d'aprenentatge per a institucions educatives.</p>
+
+            <div class="highlight-box">
+                <strong>Objectiu Principal:</strong><br>
+                Facilitar la comunicació entre professors, alumnes i empresaris, amb sistemes de seguiment de jornades de pràctiques, resultats d'aprenentatge i gestió de convenis.
+            </div>
+
+            <h3>Característiques Principals</h3>
+            <div class="grid-3">
+                <div class="feature-card">
+                    <h4>Sistema de Chat</h4>
+                    <p>Converses privades i grupals en temps real entre usuaris del sistema</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Gestió de Jornades</h4>
+                    <p>Control d'assistència amb horaris d'entrada i sortida, i registre d'activitats</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Resultats d'Aprenentatge</h4>
+                    <p>Seguiment de RA (Resultats d'Aprenentatge) assolits per alumne</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Gestió d'Empreses</h4>
+                    <p>Registro i gestió de empreses amb assignació de convenis</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Dashboard de Dades</h4>
+                    <p>Resum estadístic de jornades, RAs i activitat dels usuaris</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Autenticació Segura</h4>
+                    <p>Sistema de login amb tokens API (Laravel Sanctum)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arquitectura General -->
+        <section class="section" id="arquitectura">
+            <h2>Arquitectura General</h2>
+
+            <h3>Diagrama Arquitectònic</h3>
+            <div class="flow-diagram">
+                <div class="flow-item">Frontend<br>(HTML/JS)</div>
+                <div class="flow-arrow">↔️</div>
+                <div class="flow-item">Laravel API<br>(/api/*)</div>
+                <div class="flow-arrow">↔️</div>
+                <div class="flow-item">Database<br>(MySQL)</div>
+            </div>
+
+            <h3>Stack Tecnològic</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capa</th>
+                        <th>Tecnologia</th>
+                        <th>Descripció</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Frontend</strong></td>
+                        <td>HTML5 + Bootstrap 5 + Vanilla JS</td>
+                        <td>Interfície estàtica amb comunicació via API REST</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backend</strong></td>
+                        <td>Laravel 11 + PHP 8.2+</td>
+                        <td>Framework MVC amb API RESTful</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Autenticació</strong></td>
+                        <td>Laravel Sanctum</td>
+                        <td>Tokens API per a requests autenticades</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chat</strong></td>
+                        <td>Musonza Chat Package</td>
+                        <td>Sistema de missatgeria integrat</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base de Dades</strong></td>
+                        <td>MySQL / MariaDB</td>
+                        <td>Emmagatzematge relacional</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        
+        <!-- Funcionalidades -->
+        <section class="section" id="funcionalidades">
+            <h2>Funcionalitats Principals</h2>
+
+            <h3>1. Sistema de Autenticació</h3>
+            <div class="card-section">
+                <strong>Funcionament:</strong>
+                <ol>
+                    <li>Usuari accedeix a index.html i completa el formulari de login</li>
+                    <li>Frontend envia credencials a POST /api/login</li>
+                    <li>Backend verifica credencials i genera token Sanctum</li>
+                    <li>Token s'emmagatzema en localStorage del navegador</li>
+                    <li>Totes les peticions posteriors utilitzen l'header "Authorization: Bearer {token}"</li>
+                </ol>
+            </div>
+
+            <h3>2. Gestió de Jornades</h3>
+            <div class="card-section">
+                <strong>Procés:</strong>
+                <ul>
+                    <li>El professor/alumne crea una jornada amb data específica</li>
+                    <li>Registra hora d'entrada (automàtica a l'actualitat)</li>
+                    <li>Al finalitzar, registra hora de sortida</li>
+                    <li>Afegeix descripció d'activitats realitzades</li>
+                    <li>Pot associar Resultats d'Aprenentatge a la jornada</li>
+                    <li>La jornada es desa en la base de dades</li>
+                </ul>
+            </div>
+
+            <h3>3. Sistema de Chat</h3>
+            <div class="card-section">
+                <strong>Tipus de Converses:</strong>
+                <ul>
+                    <li><strong>Privades:</strong> Entre dos usuaris específics</li>
+                    <li><strong>Grupals:</strong> Entre múltiples participants</li>
+                </ul>
+                <strong>Funcions:</strong>
+                <ul>
+                    <li>Enviar/Rebre missatges en temps real</li>
+                    <li>Llista de participants en cada conversació</li>
+                    <li>Historial de missatges persistents</li>
+                    <li>Marcar converses com llegides</li>
+                </ul>
+            </div>
+
+            <h3>4. Gestió de RAs (Resultats d'Aprenentatge)</h3>
+            <div class="card-section">
+                <strong>Workflow:</strong>
+                <ol>
+                    <li>Admin defineix RAs del programa educatiu</li>
+                    <li>Professor assigna RAs a alumnes</li>
+                    <li>Durant les jornades, es registra quin RAs s'ha treballat</li>
+                    <li>Sistema pot generar reportes de RAs assolits per alumne</li>
+                    <li>Dashboar mostra estadístiques de compliment</li>
+                </ol>
+            </div>
+
+            <h3>5. Gestió de Empreses</h3>
+            <div class="card-section">
+                <strong>Dades d'Empresa:</strong>
+                <ul>
+                    <li>Nom i descripció de l'empresa</li>
+                    <li>Logo/Imatge representativa</li>
+                    <li>Ubicació i dades de contacte</li>
+                    <li>Empresari propietari</li>
+                    <li>Convenis associats</li>
+                </ul>
+            </div>
+
+            <h3>6. Dashboard Estadístic</h3>
+            <div class="card-section">
+                <strong>Mètriques Disponibles:</strong>
+                <ul>
+                    <li>Total de jornades completades</li>
+                    <li>Jornades pendents</li>
+                    <li>Usuaris actius recentment</li>
+                    <li>RAs assolits per alumne</li>
+                    <li>Hores totals treballades</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Rols y Permisos -->
+        <section class="section" id="roles">
+            <h2>Rols i Permisos</h2>
+
+            <div class="role-section">
+                <div class="role-title">
+                    <h4>PROFESSOR</h4>
+                </div>
+                <strong>Permisos:</strong>
+                <ul>
+                    <li>Veure llista de empreses</li>
+                    <li>Crear i gestionar jornades (pròpies)</li>
+                    <li>Veure i editar RAs de alumnes assignats</li>
+                    <li>Participar en chat privat i grupal</li>
+                    <li>Accedir a dashboard personal</li>
+                    <li>Veure perfil personal</li>
+                    <li>No pot gestionar empreses</li>
+                    <li>No pot veure usuaris sense permís</li>
+                </ul>
+            </div>
+
+            <div class="role-section">
+                <div class="role-title">
+                    <h4>ALUMNE</h4>
+                </div>
+                <strong>Permisos:</strong>
+                <ul>
+                    <li>No pot veure llista de empreses</li>
+                    <li>Crear i gestionar jornades (pròpies)</li>
+                    <li>Veure els seus RAs assignats</li>
+                    <li>Participar en chat privat i grupal</li>
+                    <li>Accedir a dashboard personal</li>
+                    <li>Veure perfil personal</li>
+                    <li>No pot crear/editar RAs</li>
+                    <li>Accés limitat a dades d'altres alumnes</li>
+                </ul>
+            </div>
+
+            <div class="role-section">
+                <div class="role-title">
+                    <h4>EMPRESARI</h4>
+                </div>
+                <strong>Permisos:</strong>
+                <ul>
+                    <li>Crear i editar les seves empreses</li>
+                    <li>Veure llista d'empreses (pròpies i del sector)</li>
+                    <li>Gestionar convenis i alumnes en pràctiques</li>
+                    <li>Participar en chat privat i grupal</li>
+                    <li>Veure jornades dels alumnes en pràctiques</li>
+                    <li>Veure perfil personal</li>
+                    <li>No pot gestionar RAs</li>
+                    <li>No pot accedir a admin panel</li>
+                </ul>
+            </div>
+
+            <div class="role-section">
+                <div class="role-title">
+                    <h4>ADMIN</h4>
+                </div>
+                <strong>Permisos:</strong>
+                <ul>
+                    <li>Accés complet a totes les funcions</li>
+                    <li>Gestionar usuaris (crear, editar, eliminar)</li>
+                    <li>Gestionar empreses i convenis</li>
+                    <li>Accedir a totes les dades del sistema</li>
+                    <li>Veure reports i estadístiques</li>
+                    <li>Configurar paràmetres del sistema</li>
+                    <li>Accés panel d'administració</li>
+                    <li>Veure logs i activitat del sistema</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Instalación -->
+        <section class="section" id="instalacion">
+            <h2>Instal·lació i Configuració</h2>
+
+            <h3>Requisits Previs</h3>
+            <ul>
+                <li>PHP 8.2 o superior</li>
+                <li>Composer</li>
+                <li>MySQL 8.0+ o MariaDB 10.5+</li>
+                <li>Node.js (opcional, per a compilació d'assets)</li>
+                <li>Git</li>
+            </ul>
+
+            <h3>Passos d'Instal·lació</h3>
+
+            <h4>1. Clonar el repositori</h4>
+            <div class="code-block">
+git clone https://github.com/tusuario/fempo-2.git
+cd fempo-2
+            </div>
+
+            <h4>2. Instal·lar dependències PHP</h4>
+            <div class="code-block">
+composer install
+            </div>
+
+            <h4>3. Configurar variables d'entorn</h4>
+            <div class="code-block">
+cp .env.example .env
+php artisan key:generate
+            </div>
+
+            <h4>4. Configurar base de dades en .env</h4>
+            <div class="code-block">
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=fempo_db
+DB_USERNAME=root
+DB_PASSWORD=
+            </div>
+
+            <h4>5. Executar migracions</h4>
+            <div class="code-block">
+php artisan migrate
+            </div>
+
+            <h4>6. Sembrar dades inicials (opcional)</h4>
+            <div class="code-block">
+php artisan db:seed
+            </div>
+
+            <h4>7. Iniciar el servidor</h4>
+            <div class="code-block">
+php artisan serve
+            </div>
+
+            <p>L'aplicació estarà disponible en <code>http://localhost:8000</code></p>
+
+            <h3>Configuració de CORS (si cal)</h3>
+            <div class="warning-box">
+                Si el frontend i backend estan en dominis diferents, configurar CORS en config/cors.php
+            </div>
+
+            <h3>Configuració de Sanctum (API Tokens)</h3>
+            <div class="code-block">
+# Publicar configuració de Sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+# Crear taula de tokens
+php artisan migrate
+            </div>
+        </section>
+
+        <!-- Guía de Uso -->
+        <section class="section" id="guia-uso">
+            <h2>Guia d'Ús</h2>
+
+            <h3>Per a Professors</h3>
+
+            <h4>1. Iniciar Sessió</h4>
+            <ol>
+                <li>Accedir a <code>http://localhost:8000</code></li>
+                <li>Introduir email i contrasenya</li>
+                <li>Fer clic a "Iniciar sessió"</li>
+            </ol>
+
+            <h4>2. Registrar una Jornada</h4>
+            <ol>
+                <li>En el panell principal, fer clic a "Nova Jornada"</li>
+                <li>Seleccionar la data</li>
+                <li>El sistema registra automàticament l'hora d'entrada actual</li>
+                <li>Al finalitzar, fer clic a "Registrar sortida"</li>
+                <li>Afegir descripció d'activitats</li>
+                <li>Seleccionar RAs treballats (opcional)</li>
+                <li>Fer clic a "Guardar Jornada"</li>
+            </ol>
+
+            <h4>3. Gestionar RAs de Alumnes</h4>
+            <ol>
+                <li>Fer clic a "Gestió RAs"</li>
+                <li>Seleccionar un alumne</li>
+                <li>Fer clic a "Afegir RA" per assignar resultats d'aprenentatge</li>
+                <li>Seleccionar els RAs de la llista disponible</li>
+                <li>Fer clic a "Guardar"</li>
+            </ol>
+
+            <h4>4. Accedir a Chat</h4>
+            <ol>
+                <li>Fer clic a l'icona de "Chat" al navegador</li>
+                <li>O accedir a <code>http://localhost:8000/chat.html</code></li>
+                <li>Seleccionar una conversació existent o crear una nova</li>
+                <li>Escribir i enviar missatges</li>
+            </ol>
+
+            <h3>Per a Alumnes</h3>
+
+            <h4>1. Veure Jornades Assignades</h4>
+            <ol>
+                <li>En el dashboard, veure secció "Les meves jornades"</li>
+                <li>Cada jornada mostra data, hores i activitats</li>
+                <li>Fer clic per veure detalls complerts</li>
+            </ol>
+
+            <h4>2. Veure RAs Personals</h4>
+            <ol>
+                <li>Fer clic a "Els meus RAs"</li>
+                <li>Veure la llista de Resultats d'Aprenentatge assignats</li>
+                <li>Veure estat de compliment de cada RA</li>
+            </ol>
+
+            <h3>Per a Empresaris</h3>
+
+            <h4>1. Crear una Empresa</h4>
+            <ol>
+                <li>Fer clic a "Afegir Empresa"</li>
+                <li>Omplir dades: nom, descripció, ubicació, telèfon</li>
+                <li>Pujat logo (opcional)</li>
+                <li>Fer clic a "Crear Empresa"</li>
+            </ol>
+
+            <h4>2. Gestionar Convenis</h4>
+            <ol>
+                <li>Accedir a la empresa des del llistat</li>
+                <li>Fer clic a "Gestionar Convenis"</li>
+                <li>Afegir alumnes en pràctiques</li>
+                <li>Definir períodes de pràctiques</li>
+            </ol>
+
+            <h4>3. Veure Activitat dels Alumnes</h4>
+            <ol>
+                <li>Fer clic en un alumne en pràctiques</li>
+                <li>Veure el llistat de jornades treballades</li>
+                <li>Accedir a detalls d'activitats realitzades</li>
+            </ol>
+
+            <h3>Per a Admins</h3>
+
+            <h4>1. Accedir al Panel d'Administració</h4>
+            <ol>
+                <li>Fer clic a l'icona d'admin (engranatge)</li>
+                <li>O accedir a <code>http://localhost:8000/admin</code></li>
+            </ol>
+
+            <h4>2. Gestionar Usuaris</h4>
+            <ol>
+                <li>Fer clic a "Usuaris" al menú</li>
+                <li>Veure llistat de tots els usuaris</li>
+                <li>Fer clic a "Crear Usuari" per afegir novells</li>
+                <li>Assignar rol: Professor, Alumne o Empresari</li>
+                <li>Fer clic a "Guardar"</li>
+            </ol>
+
+            <h4>3. Consultar Reports</h4>
+            <ol>
+                <li>Fer clic a "Reports" al menú</li>
+                <li>Seleccionar interval de dates</li>
+                <li>Seleccionar mètrica (jornades, RAs, usuaris)</li>
+                <li>Fer clic a "Generar Report"</li>
+            </ol>
+        </section>
+
+        <!-- Troubleshooting -->
+        <section class="section" id="troubleshooting">
+            <h2>Solució de Problemes</h2>
+
+            <h3>Problemes Comuns</h3>
+
+            <h4>Error: "SQLSTATE[HY000]: General error"</h4>
+            <div class="card-section">
+                <strong>Causa:</strong> Error en la base de dades
+                <strong>Solució:</strong>
+                <ol>
+                    <li>Verificar que MySQL està en funcionament</li>
+                    <li>Verificar credencials en .env</li>
+                    <li>Executar: php artisan migrate:fresh</li>
+                </ol>
+            </div>
+
+            <h4>Error: "Class not found"</h4>
+            <div class="card-section">
+                <strong>Causa:</strong> Dependencies no instal·lades correctament
+                <strong>Solució:</strong>
+                <div class="code-block">
+composer dump-autoload
+composer install --no-cache
+                </div>
+            </div>
+
+            <h4>Error: "Token invalid or expired"</h4>
+            <div class="card-section">
+                <strong>Causa:</strong> Token API ha expirat o és invàlid
+                <strong>Solució:</strong>
+                <ol>
+                    <li>Fer logout i login de nou</li>
+                    <li>Netejar localStorage: Premeu F12, Console, localStorage.clear()</li>
+                </ol>
+            </div>
+
+            <h4>Login no funciona</h4>
+            <div class="card-section">
+                <strong>Diagnòstic:</strong>
+                <ol>
+                    <li>Obrir DevTools (F12) → Network</li>
+                    <li>Intentar login i observar la petició</li>
+                    <li>Verificar response del servidor (error 401, 422, etc.)</li>
+                    <li>Revisar storage/logs/laravel.log per a més detalls</li>
+                </ol>
+            </div>
+
+            <h4>Chat no funciona</h4>
+            <div class="card-section">
+                <strong>Solució:</strong>
+                <ol>
+                    <li>Verificar que el token és vàlid</li>
+                    <li>Revisar que Musonza Chat package està instal·lat</li>
+                    <li>Executar: composer require musonza/chat</li>
+                    <li>Executar migracions: php artisan migrate</li>
+                </ol>
+            </div>
+
+            <h4>Jornades no es guarden</h4>
+            <div class="card-section">
+                <strong>Diagnòstic:</strong>
+                <ol>
+                    <li>Verificar que la taula jornades existeix</li>
+                    <li>Revisar permisos de l'usuari</li>
+                    <li>Comprovar que els camps obligatoris estan omplerts</li>
+                    <li>Revisar els logs: tail -f storage/logs/laravel.log</li>
+                </ol>
+            </div>
+
+            <h3>Logs i Debugging</h3>
+            <div class="highlight-box">
+                <strong>Logs de Laravel:</strong><br>
+                storage/logs/laravel.log<br><br>
+                <strong>Veure logs en temps real:</strong><br>
+                tail -f storage/logs/laravel.log
+            </div>
+
+            <h3>Resetear la Base de Dades</h3>
+            <div class="warning-box">
+                Això eliminarà TOTES les dades:
+                <div class="code-block">
+php artisan migrate:fresh --seed
+                </div>
+            </div>
+
+            <h3>Contactar Suport</h3>
+            <div class="success-box">
+                Per a més ajuda, revisar:<br>
+                <a href="https://laravel.com/docs" target="_blank">Laravel Documentation</a><br>
+                <a href="https://getbootstrap.com/docs" target="_blank">Bootstrap Documentation</a><br>
+                Crear issue en GitHub amb detalls del problema
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>FEMPO-2 | Sistema Integral de Comunicacions Educatives</strong></p>
+            <p>Versió 2.0.0 | Desenvolupat amb Laravel i Bootstrap</p>
+            <p style="font-size: 0.9rem; margin-top: 20px; opacity: 0.8;">Manual generat el 30 de juny de 2026</p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">↑</div>
+
+    <script>
+        // Smooth scroll navigation
+        document.querySelectorAll('.toc-sidebar a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Update active link
+                    document.querySelectorAll('.toc-sidebar a').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Back to Top functionality
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Update active section on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.toc-sidebar a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Code highlighting simulation
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.style.lineHeight = '1.6';
+        });
+    </script>
+</body>
+</html>

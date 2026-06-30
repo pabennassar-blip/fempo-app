@@ -14,14 +14,23 @@
                 <div class="card shadow border-0 border-top border-4 border-dark">
                     <div class="card-body p-4 p-sm-5">
                         <div class="border-bottom pb-3 mb-4">
-                            <h2 class="card-title text-dark fs-5 fw-semibold text-uppercase mb-1" style="letter-spacing: 0.5px;">GESTOR FEMPO IES SINEU</h2>
+                            <h2 class="card-title text-dark fs-5 fw-semibold text-uppercase mb-1" style="letter-spacing: 0.5px;">INICIAR SESSIÓ</h2>
+                        </div>
+                        <div class="alert alert-light border-start border-3 border-secondary mb-4" role="alert">
+                            <small class="d-block lh-lg">
+                                <strong>Correus d'exemple:</strong><br>
+                                professor@example.com<br>
+                                alumne@example.com<br>
+                                empresari@example.com<br>
+                                <br><strong>Contrasenya:</strong> password123
+                            </small>
                         </div>
                         <form id="formLogin">
                             <div class="mb-3">
-                                <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Correu electrònic"  required>
+                                <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Correu electrònic" value="professor@example.com" required>
                             </div>
                             <div class="mb-4">
-                                <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Contrasenya"  required>
+                                <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Contrasenya" value="password123" required>
                             </div>
                             <button type="submit" class="btn btn-dark btn-lg w-100 text-uppercase fw-semibold" style="letter-spacing: 0.5px;">Iniciar sessió</button>
                         </form>
